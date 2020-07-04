@@ -1,7 +1,7 @@
 //Server Information
 module.exports = {
-  guildName: "AC Beta",
-  guildId: "348214140889989140",
+  guildName: "Bot Testing",
+  guildId: "571136573253615627",
   
   roles: {
     developer : "381845745147314186",
@@ -46,7 +46,7 @@ module.exports = {
     betaSteamIDS          : "391345364919123968",
     
     botSpam               : "389241234100715520",
-    showcase              : "349637406393237514",
+    showcase              : "d",
     suggestion            : "389870221906804737",
     partners              : "413841399306518530",
     muted                 : "445364228900257792",

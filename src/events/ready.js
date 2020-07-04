@@ -39,7 +39,7 @@ module.exports.run = (client, serverInfo, config, checkStatus) => {
      * ? Every single file includes a title & details. We'll be fetching those to make a fast a smooth help
      */
 
-    fs.readdir('./src/cmds', (err, files) => {
+    fs.readdir('./cmds', (err, files) => {
         for (let i = 0; i < files.length; i++) {
             let info = require(`../cmds/${files[i]}`);
             if (!info.title || !info.details) continue;
@@ -53,22 +53,4 @@ module.exports.run = (client, serverInfo, config, checkStatus) => {
             }
         }
     });
-
-    /**
-     * ! Channel messages fetching
-     * 
-     * ? Channels like showcase & suggestions requires fetching because reactions won't work
-     * ? if the messages aren't fetched. So by fetching them at least the last 100 messages will work
-     * 
-     * ? We also delay this by 30 seconds. Since yea, AC is a big Discord and it takes time for all channels to be fetched.
-     */
-    
-    setTimeout(() => {
-        checkStatus();
-        client.guilds.resolve(serverInfo.guildId).channels.resolve(serverInfo.channels.showcase).messages.fetch();
-        client.guilds.resolve(serverInfo.guildId).channels.resolve(serverInfo.channels.suggestion).messages.fetch();
-        client.guilds.resolve(serverInfo.guildId).channels.resolve(serverInfo.channels.ingameReports).messages.fetch();
-        client.guilds.resolve(serverInfo.guildId).channels.resolve(serverInfo.channels.partners).messages.fetch();
-        client.guilds.resolve(serverInfo.guildId).channels.resolve(serverInfo.channels.banners).messages.fetch();
-    }, 10000);
 }

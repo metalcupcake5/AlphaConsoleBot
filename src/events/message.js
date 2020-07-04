@@ -10,7 +10,7 @@ module.exports.run = async ({ client, serverInfo, message, args, sql, config, se
     let keys = config.keys;
 
     //! This if for the banner submissions contest
-    if (message.channel.id === serverInfo.channels.submitBanners) {
+    /*if (message.channel.id === serverInfo.channels.submitBanners) {
         handleNewContestEntry({ client, serverInfo, message, args, sql, config, sendEmbed }, cmd);
     }
 
@@ -88,11 +88,12 @@ module.exports.run = async ({ client, serverInfo, message, args, sql, config, se
                 
             }
         }
-    }
+    }*/
 
     // ! End of filters. Start of other functionalities
     if (message.content.startsWith('!') && !CustomCommandsChannel(message.channel.id, serverInfo.channels)) {
-        sql.query('select * from Commands where Command = ?', [ cmd ], (err, res) => {
+        let language = args.slice(1)[0] || "en";
+        sql.query('select * from Commands where Command = ? and Language = ?', [ cmd, language ], (err, res) => {
             if (err) {
                 let errorCode = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
                 console.error(`Error code ${errorCode} by ${message.author.tag}`, err);
@@ -100,12 +101,7 @@ module.exports.run = async ({ client, serverInfo, message, args, sql, config, se
             }
 
             if (res.length !== 0) {
-                let user = message.mentions.users.first() ? message.mentions.users.first().id : args.length === 1 ? "123456" : args[1];
-                message.guild.members.fetch(user).then(m => {
-                    message.channel.send(`<@${m.id}>, ${res[0].Response}`)
-                }).catch(e => {
-                    message.channel.send(res[0].Response)
-                })
+                message.channel.send(res[0].Response)
             }
         })
     }
